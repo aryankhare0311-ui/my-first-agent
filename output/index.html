@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agents in 2026 — Designers' Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #08080f;
+      --bg2: #0d0d1a;
+      --card: rgba(255,255,255,0.03);
+      --card-border: rgba(255,255,255,0.07);
+      --text: #f1f5f9;
+      --text-muted: #475569;
+      --text-secondary: #94a3b8;
+      --purple: #8b5cf6;
+      --blue: #3b82f6;
+      --green: #10b981;
+      --red: #f43f5e;
+      --yellow: #f59e0b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 60px;
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(8, 8, 15, 0.75);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav-logo {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, #c4b5fd, #818cf8, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-pill {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── HERO ────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 20% 45%, rgba(139,92,246,0.13) 0%, transparent 65%),
+        radial-gradient(ellipse 65% 45% at 80% 55%, rgba(59,130,246,0.1) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 35% at 50% 15%, rgba(139,92,246,0.07) 0%, transparent 65%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 70% 70% at center, black 20%, transparent 75%);
+    }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 820px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 1rem;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.22);
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #a78bfa;
+      margin-bottom: 2.25rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #8b5cf6;
+      animation: blink 2.2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5.5vw, 3.75rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.75rem;
+    }
+
+    .grad {
+      background: linear-gradient(135deg, #c4b5fd 0%, #818cf8 45%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 540px;
+      margin: 0 auto 3rem;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+      animation: bob 2s ease-in-out infinite;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(9px); }
+    }
+
+    /* ─── LAYOUT HELPERS ──────────────────────────── */
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2.5rem;
+    }
+
+    .wrap-stats {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2.5rem 6rem;
+    }
+
+    .divider {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--card-border) 30%, var(--card-border) 70%, transparent);
+    }
+
+    .sec-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--purple);
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.022em;
+      margin-bottom: 0.7rem;
+      line-height: 1.15;
+    }
+
+    .sec-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 540px;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+
+    /* ─── STATS ───────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: var(--card-border);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      gap: 1px;
+    }
+
+    .stat-card {
+      background: var(--bg2);
+      padding: 3rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+      cursor: default;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 55%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(139,92,246,0.6), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .stat-card:hover { background: rgba(139,92,246,0.05); }
+    .stat-card:hover::after { opacity: 1; }
+
+    .stat-num {
+      font-size: clamp(2.8rem, 5vw, 4.25rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 0.9rem;
+    }
+
+    .stat-label {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.45;
+    }
+
+    .stat-src {
+      font-size: 0.67rem;
+      color: var(--text-muted);
+      margin-top: 0.65rem;
+      font-style: italic;
+    }
+
+    /* ─── PLATFORMS ───────────────────────────────── */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .p-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .p-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(139,92,246,0.28);
+    }
+
+    .p-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(139,92,246,0.04), rgba(59,130,246,0.04));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .p-card:hover::before { opacity: 1; }
+
+    .p-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .p-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.55rem; }
+
+    .p-card p {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.22rem 0.7rem;
+      background: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 100px;
+      font-size: 0.67rem;
+      font-weight: 700;
+      color: #10b981;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .badge-live::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .p-lane {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin-top: 0.7rem;
+      font-style: italic;
+    }
+
+    /* ─── WHAT'S WORKING ──────────────────────────── */
+    .working-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .w-item {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: border-color 0.25s, background 0.25s;
+    }
+
+    .w-item:hover {
+      border-color: rgba(16,185,129,0.22);
+      background: rgba(16,185,129,0.03);
+    }
+
+    .w-emoji {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .w-item h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.35rem; }
+
+    .w-item p {
+      font-size: 0.79rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    /* ─── HYPE VS REALITY ─────────────────────────── */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .s-col h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .hype-col h3 { color: var(--red); }
+    .real-col h3 { color: var(--green); }
+
+    .s-item {
+      display: flex;
+      gap: 0.8rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.035);
+    }
+
+    .s-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .s-marker {
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+      opacity: 0.7;
+    }
+
+    .s-item p {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .s-item strong { color: var(--text); font-weight: 500; }
+
+    /* ─── CHARTS ──────────────────────────────────── */
+    .chart-box {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.25rem 2.5rem;
+    }
+
+    .chart-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+    }
+
+    /* ─── PRODUCTIVITY ────────────────────────────── */
+    .prod-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .prod-text h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.65rem;
+    }
+
+    .prod-text p {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .callout {
+      background: rgba(244,63,94,0.06);
+      border: 1px solid rgba(244,63,94,0.15);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      font-size: 0.79rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .callout strong { color: #f43f5e; }
+
+    /* ─── TIMELINE ────────────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 2.25rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 12px;
+      bottom: 24px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--purple) 0%, rgba(139,92,246,0.1) 100%);
+    }
+
+    .tl-item {
+      position: relative;
+      padding-bottom: 2.75rem;
+      opacity: 0;
+      transform: translateX(-18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .tl-item.visible { opacity: 1; transform: translateX(0); }
+    .tl-item:nth-child(2) { transition-delay: 0.1s; }
+    .tl-item:nth-child(3) { transition-delay: 0.2s; }
+    .tl-item:nth-child(4) { transition-delay: 0.3s; }
+
+    .tl-item:last-child { padding-bottom: 0; }
+
+    .tl-dot {
+      position: absolute;
+      left: -2.25rem;
+      top: 6px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--purple);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.22);
+    }
+
+    .tl-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--purple);
+      margin-bottom: 0.35rem;
+    }
+
+    .tl-item h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .tl-item p {
+      font-size: 0.81rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ─── TAKEAWAYS ───────────────────────────────── */
+    .take-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .take-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.75rem 1.75rem 1.75rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .take-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(to bottom, #8b5cf6, #3b82f6);
+    }
+
+    .take-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+    }
+
+    .take-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .take-card strong { color: var(--text); font-weight: 500; }
+
+    /* ─── UNCERTAIN ───────────────────────────────── */
+    .unc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.1rem;
+    }
+
+    .unc-item {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.3rem 1.4rem;
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+    }
+
+    .unc-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+
+    .unc-item p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .unc-item strong { color: var(--text); font-weight: 500; }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 4rem 2.5rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .src-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .src-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.55rem 2.5rem;
+    }
+
+    .src-list li {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 0.55rem;
+      line-height: 1.5;
+    }
+
+    .src-num { color: var(--purple); font-weight: 600; flex-shrink: 0; }
+
+    .foot-bottom {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.73rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    .fade-up:nth-child(2) { transition-delay: 0.08s; }
+    .fade-up:nth-child(3) { transition-delay: 0.16s; }
+    .fade-up:nth-child(4) { transition-delay: 0.24s; }
+    .fade-up:nth-child(5) { transition-delay: 0.32s; }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 860px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .platform-grid { grid-template-columns: 1fr; }
+      .split-grid { grid-template-columns: 1fr; }
+      .prod-grid { grid-template-columns: 1fr; }
+      .take-grid { grid-template-columns: 1fr; }
+      .src-list { grid-template-columns: 1fr; }
+      .unc-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .wrap, .wrap-stats { padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AI Agents in 2026</div>
+  <ul class="nav-links">
+    <li><a href="#stats">Stats</a></li>
+    <li><a href="#platforms">Platforms</a></li>
+    <li><a href="#working">What Works</a></li>
+    <li><a href="#pains">Pain Points</a></li>
+    <li><a href="#predictions">Predictions</a></li>
+  </ul>
+  <span class="nav-pill">Report · Jun 2026</span>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><div class="hero-badge-dot"></div>Research Report · 2026</div>
+    <h1>AI Agents in 2026:<br><span class="grad">What Designers Need to Know</span></h1>
+    <p class="hero-sub">AI agents are now embedded in every major design tool. Here's what's real, what's overhyped, and where it's all heading — based on the latest data.</p>
+    <div class="hero-meta">
+      <span>📅 June 17, 2026</span>
+      <span>⏱ ~7 min read</span>
+      <span>🎯 Designers & Builders</span>
+    </div>
+  </div>
+  <div class="scroll-cue" onclick="document.getElementById('stats').scrollIntoView({behavior:'smooth'})">↓</div>
+</section>
+
+<!-- STATS -->
+<div class="wrap-stats" id="stats">
+  <div class="stats-grid">
+    <div class="stat-card fade-up">
+      <div class="stat-num" data-target="30" data-suffix="%">0%</div>
+      <div class="stat-label">efficiency gains for designers<br>using AI agents consistently</div>
+      <div class="stat-src">Source: AIMultiple Research [6]</div>
+    </div>
+    <div class="stat-card fade-up">
+      <div class="stat-num" data-target="73" data-suffix="%">0%</div>
+      <div class="stat-label">higher output per person<br>when pairing with AI agents</div>
+      <div class="stat-src">Source: AIMultiple Research [6]</div>
+    </div>
+    <div class="stat-card fade-up">
+      <div class="stat-num" data-target="62" data-suffix="%">0%</div>
+      <div class="stat-label">of designers cite inconsistent<br>output as their #1 frustration</div>
+      <div class="stat-src">Source: AI in Design Report 2026 [10]</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- PLATFORMS -->
+<div class="wrap" id="platforms">
+  <div class="sec-label">Platform Landscape</div>
+  <h2>Who's Doing What</h2>
+  <p class="sec-desc">Three platforms, three distinct lanes. Each has carved out a different space in AI-assisted design.</p>
+  <div class="platform-grid">
+    <div class="p-card fade-up">
+      <div class="p-icon" style="background:rgba(99,102,241,0.12);">✦</div>
+      <h3>Figma</h3>
+      <p>Launched an AI agent directly on the canvas in May 2026, powered by Anthropic (Claude) and OpenAI. Understands your components, layouts, and visual hierarchy — not just generic image generation. Figma Make lets you go from prompt → working UI prototype without touching code.</p>
+      <span class="badge-live">Live</span>
+      <div class="p-lane">Lane: Workflow automation + code handoff</div>
+    </div>
+    <div class="p-card fade-up">
+      <div class="p-icon" style="background:rgba(239,68,68,0.12);">⚡</div>
+      <h3>Adobe Firefly</h3>
+      <p>Expanded into multi-step creative workflows across Photoshop and Illustrator. Agents handle background removal, style matching, and asset resizing across entire batches. Premium generative quality is the differentiator.</p>
+      <span class="badge-live">Live</span>
+      <div class="p-lane">Lane: Premium generative quality</div>
+    </div>
+    <div class="p-card fade-up">
+      <div class="p-icon" style="background:rgba(16,185,129,0.12);">◈</div>
+      <h3>Canva Magic Studio</h3>
+      <p>Generates editable designs from conversational prompts. Best for high-volume social and marketing content — not precision product design. Speed and volume at scale is the core value proposition.</p>
+      <span class="badge-live">Live</span>
+      <div class="p-lane">Lane: Speed at scale</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- WHAT'S WORKING -->
+<div class="wrap" id="working">
+  <div class="sec-label">What's Actually Working</div>
+  <h2>5 Proven Use Cases</h2>
+  <p class="sec-desc">The real wins are in repetitive task automation, not creative generation. These five areas produce consistent, measurable results.</p>
+  <div class="working-grid">
+    <div class="w-item fade-up">
+      <div class="w-emoji">⚙️</div>
+      <div>
+        <h4>Repetitive Task Automation</h4>
+        <p>Renaming layers, resizing variants, populating placeholder content. Tasks that took hours now take minutes with reliable consistency.</p>
+      </div>
+    </div>
+    <div class="w-item fade-up">
+      <div class="w-emoji">🔗</div>
+      <div>
+        <h4>Figma-to-Code Handoff via MCP</h4>
+        <p>Model Context Protocol creates a live bridge between Figma and AI coding tools like Cursor or Claude Code — passing spacing tokens, component hierarchy, and dimensions directly to the agent.</p>
+      </div>
+    </div>
+    <div class="w-item fade-up">
+      <div class="w-emoji">🔍</div>
+      <div>
+        <h4>Competitive Research</h4>
+        <p>AI deep research tools generate first-draft intel briefings in minutes instead of the hours they used to take. Good for rapid synthesis, not primary research.</p>
+      </div>
+    </div>
+    <div class="w-item fade-up">
+      <div class="w-emoji">🎨</div>
+      <div>
+        <h4>Brand-Consistent Asset Batches</h4>
+        <p>Agents that hold brand parameters across a full output run are genuinely useful for teams producing content at scale. The consistency is the feature.</p>
+      </div>
+    </div>
+    <div class="w-item fade-up">
+      <div class="w-emoji">⚡</div>
+      <div>
+        <h4>Prototype-to-Review Cycles</h4>
+        <p>Generating quick layout options for stakeholder review, then iterating with AI, is dramatically faster than building variations from scratch.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- HYPE VS REALITY -->
+<div class="wrap" id="hype">
+  <div class="sec-label">Reality Check</div>
+  <h2>Hype vs. Reality</h2>
+  <p class="sec-desc">Most "autonomous design" promises don't survive contact with production environments. Here's the actual gap.</p>
+  <div class="split-grid">
+    <div class="s-col hype-col fade-up">
+      <h3>🔴 The Hype</h3>
+      <div class="s-item">
+        <span class="s-marker">✕</span>
+        <p><strong>"Autonomous" design</strong> — Agents will handle creative direction end-to-end without constant supervision.</p>
+      </div>
+      <div class="s-item">
+        <span class="s-marker">✕</span>
+        <p><strong>End-to-end pipelines</strong> — Brief in, finished design out. Minimal human intervention required.</p>
+      </div>
+      <div class="s-item">
+        <span class="s-marker">✕</span>
+        <p><strong>ROI at scale</strong> — Enterprise AI agent projects will reliably deliver measurable returns.</p>
+      </div>
+      <div class="s-item">
+        <span class="s-marker">✕</span>
+        <p><strong>Consistent quality</strong> — The same prompt reliably produces the same quality output every time.</p>
+      </div>
+      <div class="s-item">
+        <span class="s-marker">✕</span>
+        <p><strong>"AI understands design"</strong> — Models actually grasp visual hierarchy, accessibility, and brand judgment.</p>
+      </div>
+    </div>
+    <div class="s-col real-col fade-up">
+      <h3>🟢 The Reality</h3>
+      <div class="s-item">
+        <span class="s-marker">→</span>
+        <p>Agents are <strong>fast, confident juniors who need constant review</strong>. Creative direction still requires a human call.</p>
+      </div>
+      <div class="s-item">
+        <span class="s-marker">→</span>
+        <p>You <strong>still intervene at every meaningful decision</strong>. The pipeline is end-to-human-to-end, not autonomous.</p>
+      </div>
+      <div class="s-item">
+        <span class="s-marker">→</span>
+        <p>Gartner predicts <strong>40%+ of agentic AI projects cancelled by 2027</strong> — poor integration, no clear ownership.</p>
+      </div>
+      <div class="s-item">
+        <span class="s-marker">→</span>
+        <p>Generation is <strong>non-deterministic</strong>. What worked yesterday can regress silently after any model update.</p>
+      </div>
+      <div class="s-item">
+        <span class="s-marker">→</span>
+        <p>It <strong>pattern-matches extremely well</strong> but has no understanding of why a layout decision actually matters.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- PAIN POINTS CHART -->
+<div class="wrap" id="pains">
+  <div class="sec-label">Pain Points</div>
+  <h2>Biggest Frustrations</h2>
+  <p class="sec-desc">Real data on what's blocking designers from extracting consistent value from AI tools in 2026.</p>
+  <div class="chart-box fade-up">
+    <div class="chart-label">Designer frustration index — % citing as a significant pain point</div>
+    <canvas id="painChart" height="260"></canvas>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- PRODUCTIVITY CHART -->
+<div class="wrap" id="productivity">
+  <div class="sec-label">The Numbers</div>
+  <h2>Productivity Impact</h2>
+  <p class="sec-desc">Where the genuine efficiency gains are — and the enterprise caveat Gartner is sounding about the big AI bet.</p>
+  <div class="prod-grid">
+    <div class="prod-text">
+      <h3>The Gains Are Real</h3>
+      <p>Studies cite ~30% efficiency gains for designers using AI agents consistently. The 73% output-per-person increase comes from pairing with agents — not replacing the human entirely.</p>
+      <p>monday.com's engineering team is already running the Figma → MCP → AI code pipeline in production, cutting design-to-build cycles from sprints to hours.</p>
+      <div class="callout">
+        ⚠️ <strong>Gartner Warning:</strong> 40%+ of agentic AI projects are predicted to be cancelled by end of 2027. Most pilots fail not because the AI isn't capable — but due to poor integration and no clear ownership.
+      </div>
+    </div>
+    <div class="chart-box fade-up">
+      <div class="chart-label">Output comparison — solo vs. AI-assisted (indexed to baseline = 100)</div>
+      <canvas id="prodChart" height="230"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- TIMELINE -->
+<div class="wrap" id="predictions">
+  <div class="sec-label">Where It's Heading</div>
+  <h2>The Next 12 Months</h2>
+  <p class="sec-desc">Vibe coding is mainstream. The Figma ↔ code loop is closing. Here's what comes next for UI design and front-end dev.</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">Now — Mid 2026</div>
+      <h4>Vibe Coding Goes Mainstream</h4>
+      <p>Tools like v0 by Vercel, Bolt, Lovable, Figma Make, and Replit Agent let you describe UI in plain English and get working React components back. This isn't experimental — it's the expectation.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">Q3 2026</div>
+      <h4>The Figma ↔ Code Loop Closes</h4>
+      <p>Design in Figma → MCP exports structured data → AI coding agent generates production-ready components. The gap between "designed" and "built" shrinks to hours, not sprints.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">Q4 2026</div>
+      <h4>Role Blurring Accelerates</h4>
+      <p>Designers who can prompt-engineer and review AI-generated code become significantly more valuable. Junior dev and junior designer roles are the most disrupted category.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">Mid 2027</div>
+      <h4>Figma Agent Gets More Autonomous</h4>
+      <p>Multi-step tasks without babysitting. The Figma → code pipeline becomes a standard part of most product teams' workflows — not an experiment, a practice.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- TAKEAWAYS -->
+<div class="wrap" id="takeaways">
+  <div class="sec-label">Key Takeaways</div>
+  <h2>What to Actually Do</h2>
+  <p class="sec-desc">Four conclusions that hold up against the data — and against the hype cycle.</p>
+  <div class="take-grid">
+    <div class="take-card fade-up">
+      <div class="take-num">01</div>
+      <p>AI agents are genuinely useful for the <strong>boring parts of design</strong> — automation, variation, and handoff. That's where the 30–73% productivity gains actually live.</p>
+    </div>
+    <div class="take-card fade-up">
+      <div class="take-num">02</div>
+      <p>Don't trust them with the <strong>meaningful parts unsupervised</strong> — quality control, accessibility review, and brand judgment all still need a human eye.</p>
+    </div>
+    <div class="take-card fade-up">
+      <div class="take-num">03</div>
+      <p>If you haven't tried <strong>vibe coding tools</strong> (v0, Figma Make, Bolt), now is the time. It's already the industry expectation — not a nice-to-have experiment.</p>
+    </div>
+    <div class="take-card fade-up">
+      <div class="take-num">04</div>
+      <p>Designers winning right now are treating AI as a <strong>fast collaborator</strong> — not a replacement or a magic box. The mindset shift is the actual differentiator.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- UNCERTAIN -->
+<div class="wrap">
+  <div class="sec-label">Still Evolving</div>
+  <h2>What's Uncertain</h2>
+  <p class="sec-desc">Four open questions that will define how this plays out over the next 12–18 months.</p>
+  <div class="unc-grid">
+    <div class="unc-item fade-up">
+      <span class="unc-icon">🔮</span>
+      <p>How far the <strong>autonomy gap closes</strong> — agents are improving fast but remain brittle at meaningful creative decisions.</p>
+    </div>
+    <div class="unc-item fade-up">
+      <span class="unc-icon">💰</span>
+      <p>Whether <strong>Figma's AI pricing</strong> will make these features accessible to indie designers or lock them behind enterprise tiers.</p>
+    </div>
+    <div class="unc-item fade-up">
+      <span class="unc-icon">♿</span>
+      <p>How <strong>accessibility standards</strong> adapt to AI-generated UI code at scale — someone still has to fix the broken semantics.</p>
+    </div>
+    <div class="unc-item fade-up">
+      <span class="unc-icon">🧑‍💻</span>
+      <p>Whether the <strong>designer-developer hybrid role</strong> becomes standard industry practice or fractures back into separate specializations.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="src-title">Sources</div>
+  <ul class="src-list">
+    <li><span class="src-num">[1]</span><span>Figma Brings OpenAI and Anthropic Agents into Design Workflows — TechBriefly</span></li>
+    <li><span class="src-num">[2]</span><span>Figma Just Opened the Canvas to AI Agents — Muzli Blog</span></li>
+    <li><span class="src-num">[3]</span><span>Figma vs Canva vs Adobe Express for AI-Assisted Brand Design — illustration.app</span></li>
+    <li><span class="src-num">[4]</span><span>Best AI Design Agents for Businesses in 2026 — imagine.art</span></li>
+    <li><span class="src-num">[5]</span><span>From Figma to Code: Using MCP Servers and Agentic AI — Creative Software</span></li>
+    <li><span class="src-num">[6]</span><span>AI Agent Productivity: Maximize Business Gains in 2026 — AIMultiple</span></li>
+    <li><span class="src-num">[7]</span><span>Meet the AI Agents of 2026 — Ambitious, Overhyped and Still in Training — Las Vegas Sun</span></li>
+    <li><span class="src-num">[8]</span><span>AI Agents in 2026: From Hype to Enterprise Reality — Kore.ai</span></li>
+    <li><span class="src-num">[9]</span><span>Why Your AI Agents Are One Update Away from Breaking — AscentCore</span></li>
+    <li><span class="src-num">[10]</span><span>The Year Designers Stopped Being Just Designers — AI in Design Report 2026 — ArtificialStudio</span></li>
+    <li><span class="src-num">[11]</span><span>State of AI 2026: Risks &amp; Pain Points</span></li>
+    <li><span class="src-num">[12]</span><span>Vibe Coding UI Design in 2026 — Dimension Rendering</span></li>
+    <li><span class="src-num">[13]</span><span>How We Use AI to Turn Figma Designs into Production Code — monday engineering</span></li>
+  </ul>
+  <div class="foot-bottom">
+    <span>AI Agents in 2026: What Designers Actually Need to Know</span>
+    <span>Report Date: June 17, 2026</span>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer — fade-up
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up, .tl-item').forEach(el => io.observe(el));
+
+  // Stat counters
+  function countUp(el) {
+    const target = +el.dataset.target;
+    const sfx = el.dataset.suffix || '';
+    const t0 = performance.now();
+    const dur = 1600;
+    const tick = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * target) + sfx;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  const statsIo = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('[data-target]').forEach(countUp);
+        statsIo.disconnect();
+      }
+    });
+  }, { threshold: 0.25 });
+  statsIo.observe(document.querySelector('.stats-grid'));
+
+  // Chart defaults
+  Chart.defaults.color = '#64748b';
+  Chart.defaults.font.family = "'Inter', sans-serif";
+  Chart.defaults.font.size = 13;
+
+  // Pain Points chart
+  new Chart(document.getElementById('painChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: [
+        'Inconsistent Output',
+        'Confident Wrongness / Hallucinations',
+        'Accessibility Blindspots',
+        'Prompt Fatigue',
+        'Tool Lock-in Friction'
+      ],
+      datasets: [{
+        data: [62, 55, 48, 44, 38],
+        backgroundColor: [
+          'rgba(139,92,246,0.75)',
+          'rgba(109,112,242,0.68)',
+          'rgba(59,130,246,0.68)',
+          'rgba(14,165,233,0.62)',
+          'rgba(6,182,212,0.58)',
+        ],
+        borderColor: [
+          'rgba(139,92,246,1)',
+          'rgba(109,112,242,1)',
+          'rgba(59,130,246,1)',
+          'rgba(14,165,233,1)',
+          'rgba(6,182,212,1)',
+        ],
+        borderWidth: 1,
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(10,10,18,0.96)',
+          borderColor: 'rgba(139,92,246,0.3)',
+          borderWidth: 1,
+          padding: 12,
+          titleColor: '#f1f5f9',
+          bodyColor: '#94a3b8',
+          callbacks: {
+            label: ctx => ` ${ctx.parsed.x}% of designers`,
+            afterLabel: ctx => ctx.dataIndex === 0 ? ' ← cited directly in report' : ' ← estimated from survey data'
+          }
+        }
+      },
+      scales: {
+        x: {
+          max: 80,
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          border: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: '#475569', callback: v => v + '%' }
+        },
+        y: {
+          grid: { display: false },
+          border: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: '#94a3b8' }
+        }
+      }
+    }
+  });
+
+  // Productivity chart
+  new Chart(document.getElementById('prodChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Baseline\n(Solo)', 'Efficiency\n(+AI)', 'Output\n(+AI)'],
+      datasets: [{
+        data: [100, 130, 173],
+        backgroundColor: [
+          'rgba(100,116,139,0.35)',
+          'rgba(59,130,246,0.68)',
+          'rgba(139,92,246,0.78)',
+        ],
+        borderColor: [
+          'rgba(100,116,139,0.7)',
+          'rgba(59,130,246,1)',
+          'rgba(139,92,246,1)',
+        ],
+        borderWidth: 1,
+        borderRadius: 8,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(10,10,18,0.96)',
+          borderColor: 'rgba(139,92,246,0.3)',
+          borderWidth: 1,
+          padding: 12,
+          titleColor: '#f1f5f9',
+          bodyColor: '#94a3b8',
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              return v === 100 ? ' Baseline (100)' : ` ${v} — +${v - 100}% vs baseline`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          min: 0, max: 200,
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          border: { color: 'rgba(255,255,255,0.05)' },
+          ticks: {
+            color: '#475569',
+            callback: v => v === 100 ? 'Baseline' : v
+          }
+        },
+        x: {
+          grid: { display: false },
+          border: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: '#94a3b8' }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>
